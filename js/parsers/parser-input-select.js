@@ -164,12 +164,19 @@
 			var $rows = $table.children( 'tbody' ).children( ':visible' ), // (include child rows?)
 				len = $rows.length,
 				hasSticky = $table[0].config.widgetOptions.$sticky;
+			
 			// set indeterminate state on header checkbox
 			$table.children( 'thead' ).find( 'input[type="checkbox"]' ).each( function() {
 				var column = $( this ).closest( 'td, th' ).attr( 'data-column' ),
-					$sticky = hasSticky.find( '[data-column="' + column + '"]' ),
+					
 					vis = $rows.filter( '.' + checkboxClass + '-' + column ).length,
 					allChecked = vis === len && len > 0;
+				
+					if (hasSticky){
+					var $sticky = hasSticky.find( '[data-column="' + column + '"]' );
+
+					}
+
 				if ( vis === 0 || allChecked ) {
 					updateCheckbox($(this), allChecked);
 					if ($sticky) {
@@ -182,7 +189,7 @@
 					}
 				}
 			});
-
+			
 		};
 
 		$( 'table' ).on( 'tablesorter-initialized updateComplete', function() {
